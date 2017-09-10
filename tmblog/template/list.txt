@@ -1,0 +1,21 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>[description]页面</title>
+	<meta http-equiv="pragma" [smallBeanName]="no-cache">
+	<meta http-equiv="cache-control" [smallBeanName]="no-cache">
+	<meta http-equiv="expires" [smallBeanName]="0">    
+	<meta http-equiv="keywords" [smallBeanName]="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" [smallBeanName]="This is my page">
+ </head>
+ <body>
+	<div class="con_box">
+		<h2>进入[description]的list页面</h2>
+	</div>
+	
+	<script type="text/javascript">
+	
+	</script>
+ </body>
+</html>

@@ -1,0 +1,83 @@
+/**
+ * [beanPackage]
+ * TmParams.java
+ * 创建人:[author]
+ * 时间：[date]
+ */
+package [beanPackage];
+
+/**
+ * 通用参数实体
+ * TmParams 
+ * 创建人:[author]
+ * 时间：[date]
+ * @version 1.0.0
+ * 
+ */
+public class TmParams implements java.io.Serializable {
+	private static final long serialVersionUID = 1L;
+	
+	private Integer id;// 主键id
+	private String keyword;// 关键字
+	private Integer isDelete;// 是否删除
+	private Integer pageNo = 0;// 分页起始
+	private Integer pageSize = 10;// 分页显示数
+	private Integer totalCount = 0;// 总页数
+	private String order;// 排序参数
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+
+	public Integer getPageNo() {
+		return pageNo;
+	}
+
+	public void setPageNo(Integer pageNo) {
+		this.pageNo = pageNo;
+	}
+
+	public Integer getPageSize() {
+		return pageSize;
+	}
+
+	public void setPageSize(Integer pageSize) {
+		this.pageSize = pageSize;
+	}
+
+	public Integer getTotalCount() {
+		return totalCount;
+	}
+
+	public void setTotalCount(Integer totalCount) {
+		this.totalCount = totalCount;
+	}
+
+	public String getOrder() {
+		return order;
+	}
+
+	public void setOrder(String order) {
+		this.order = order;
+	}
+}

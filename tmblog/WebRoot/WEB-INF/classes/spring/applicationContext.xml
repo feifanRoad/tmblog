@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+		http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/beans
+		http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/context
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/util   
+  		http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+	
+	<description>Spring配置</description>	
+	<!-- 扫dao包 -->
+	<context:component-scan base-package="com.tm.dao"></context:component-scan>
+	<!-- 扫service包 -->
+	<context:component-scan base-package="com.tm.service"></context:component-scan>
+	
+	<!-- 引入数据的db资源文件 -->
+	<!-- 不加密方法 -->
+<!-- 	<context:property-placeholder location="classpath:config/db.properties" /> -->
+	<!-- 加密方式 -->
+	<bean class="com.tm.core.des.EncryptPropertyPlaceholderConfigurer"
+ 		p:location="classpath:db/db.properties" p:fileEncoding="utf-8" />
+		
+	<!--数据库连接-->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+    	<!-- 基本属性 url、user、password -->
+    	<property name="driverClassName" value="${db.driver}"></property> 
+	    <property name="url" value="${db.url}" />
+	    <property name="username" value="${db.username}"/>
+	    <property name="password" value="${db.password}"/>
+		<!-- 配置初始化大小、最小、最大 几千并发量  50-->
+		<property name="initialSize"><value>10</value></property>
+	    <property name="maxActive"><value>50</value></property>
+	    <property name="minIdle"><value>10</value></property>
+	    <!-- 配置获取连接等待超时的时间 -->
+	    <property name="maxWait"><value>60000</value></property>
+	    <!-- 配置监控统计拦截的filters -->
+	    <property name="filters"><value>stat</value></property>
+		<!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+	    <property name="timeBetweenEvictionRunsMillis"><value>60000</value></property>
+	    <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+	    <property name="minEvictableIdleTimeMillis"><value>300000</value></property>
+ 	</bean>
+ 	
+ 	<!-- 配置Hibernate -->
+	<bean id="sessionFactory"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<!-- 获取数据源 -->
+		<property name="dataSource" ref="dataSource"></property>
+		<!-- 扫pojo(实体) -->
+		<property name="namingStrategy">
+			<bean class="org.hibernate.cfg.ImprovedNamingStrategy" />
+		</property>
+		<!-- 获取实体目录 -->
+		<property name="packagesToScan" value="com.tm.model"></property>
+		<property name="hibernateProperties">
+			<props>
+				<!-- 数据库的断言 -->
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<!-- 显示sql -->
+				<prop key="hibernate.show_sql">true</prop>
+				<!-- 格式化sql -->
+				<prop key="hibernate.format_sql">true</prop>
+				<!-- 自动映射表 开发结束后可以关掉-->
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.current_session_context_class">org.springframework.orm.hibernate4.SpringSessionContext</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- 事务管理 -->
+	<bean id="transactionManager"   
+            class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean>  
+    
+    <tx:annotation-driven />
+</beans>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="[daoPackage].[smallBeanName].I[beanName]Mapper" >
+	<!-- 查询出所有的[beanName]信息 -->
+	<select id="find[beanName]s" resultType="[beanName]" parameterType="TmParams">
+		SELECT
+			id,
+			name,
+			create_time as createTime,
+			update_time as updateTime,
+			user_id as userId,
+			is_delete as isDelete,
+			status
+		FROM
+			moxi_[smallBeanName]
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="@com.moxi.util.TmStringUtils@isNotEmpty(keyword)">
+				 name LIKE '%${keyword}%'
+			</if>
+		</trim>
+		ORDER BY ${order}
+		LIMIT #{pageNo} ,#{pageSize}
+	</select>
+	
+	<!-- 统计[beanName]条数 -->
+	<select id="count" resultType="int" parameterType="TmParams">
+		SELECT
+			count(1)
+		FROM
+			moxi_[smallBeanName]
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="@com.moxi.util.TmStringUtils@isNotEmpty(keyword)">
+				 name LIKE '%${keyword}%'
+			</if>
+		</trim>
+	</select>
+</mapper>
