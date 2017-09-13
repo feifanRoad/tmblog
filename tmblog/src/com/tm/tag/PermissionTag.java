@@ -10,7 +10,7 @@ import javax.servlet.jsp.tagext.BodyTagSupport;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.tm.service.permission.IAdminPermissionService;
+import com.tm.service.permission.IPermissionService;
 import com.tm.util.TmStringUtils;
 
 
@@ -29,8 +29,8 @@ public class PermissionTag extends BodyTagSupport {
 	public int doStartTag() throws JspException {
 		ServletContext context = this.pageContext.getServletContext();
 		WebApplicationContext ctx = WebApplicationContextUtils.getRequiredWebApplicationContext(context);
-		IAdminPermissionService permissionService = (IAdminPermissionService) ctx.getBean("adminPermissionServiceImpl");
-		List<HashMap<String, Object>> permissionList = permissionService.findPermissionByUserId(1);
+		IPermissionService permissionService = (IPermissionService) ctx.getBean("permissionServiceImpl");
+		List<Object[]> permissionList = permissionService.findPermissionByUserId(1);
 		if (TmStringUtils.isEmpty(var))var = "permissionList";
 		pageContext.setAttribute(var, permissionList);
 		return SKIP_BODY;

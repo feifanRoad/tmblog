@@ -14,8 +14,8 @@
  </head>
  <body>
 	
-	<c:forEach items="${permissions}" var="ps">
-		${ps.url}
+	<c:forEach items="${permissionList[0]}" var="pl">
+		${pl}
 	</c:forEach>
 	
 	

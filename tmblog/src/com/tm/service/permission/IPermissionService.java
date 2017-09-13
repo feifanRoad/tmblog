@@ -1,15 +1,22 @@
-package com.tm.dao.permission;
+package com.tm.service.permission;
 
 import java.util.HashMap;
 import java.util.List;
 
 import com.tm.model.Permission;
 
-
-public interface IPermissionDao {
+/**
+ * 权限service<BR>
+ * IAdminPermissionService<BR>
+ * 创建人:lifan<BR>
+ * 时间：2017年9月10日-下午11:20:53
+ * @version 1.0.0
+ *
+ */
+public interface IPermissionService {
 
 	/**
-	 * 根据用户id查询出用户所有的权限<BR>
+	 * 根据用户id查询出用户的权限<BR>
 	 * 方法名：findPermissionByUserId<BR>
 	 * 创建人：lifan <BR>
 	 * 时间：2017年9月10日-下午11:08:45
@@ -42,5 +49,4 @@ public interface IPermissionDao {
 	 * @since  1.0.0
 	 */
 	public List<Permission> findChildrens(Integer parentId);
-	
 }
