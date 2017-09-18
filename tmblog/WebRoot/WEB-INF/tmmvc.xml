@@ -58,11 +58,11 @@
 	<!-- 定义登陆拦截器 用户中心 -->
    	<mvc:interceptors>   
   		<mvc:interceptor> 
-  			<!-- 个人中心需要登陆 -->
+			<!-- 个人中心需要登陆 -->
   			<mvc:mapping path="/admin/**"/> 
   	      	<bean class="com.tm.core.interceptor.LoginInterceptor" />  	 
   		</mvc:interceptor> 
-     </mvc:interceptors> 
+     </mvc:interceptors>
 	
 	<!-- 验证声明 -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">

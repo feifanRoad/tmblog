@@ -1,4 +1,5 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8" trimDirectiveWhitespaces="true"%>
+<%@include file="/common/taglib.jsp" %>
 <!DOCTYPE HTML>
 <html>
   <head>
@@ -11,6 +12,10 @@
 	<%@include file="/common/common.jsp" %>
  </head>
  <body>
-	<h1>登陆页面</h1>
+	<form action="${basePath}/logined" method="post">
+		<input type="text" name="account" value="feifan"><br>
+		<input type="password" name="password" value="123456"><br>
+		<input type="submit" value="登陆">
+	</form>
  </body>
 </html>

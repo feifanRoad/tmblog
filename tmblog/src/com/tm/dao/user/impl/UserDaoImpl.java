@@ -13,7 +13,7 @@ public class UserDaoImpl extends TmBaseDao<User, Integer> implements IUserDao {
 	@Override
 	public User getAdminUser(TmParams params) {
 		User adminUser = (User) getSession()
-				.createQuery("FROM AdminUser WHERE account = ? AND `password` = ? AND is_delete = 0")
+				.createQuery("FROM User WHERE account = ? AND password = ? AND isDelete = 0")
 				.setString(0, params.getAccount())
 				.setString(1, params.getPassword())
 				.uniqueResult();

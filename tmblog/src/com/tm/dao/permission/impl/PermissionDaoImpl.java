@@ -22,7 +22,7 @@ public class PermissionDaoImpl extends TmBaseDao<Permission, Integer> implements
 		logger.info("进入了权限查询方法11== findPermissionByUserId");
 		logger.debug("dbug进入了权限查询方法== findPermissionByUserId");
 		logger.warn("警告方法");
-		String sql = "SELECT DISTINCT t5.`name`,t5.url,t5.model,t5.method"+
+		String sql = "SELECT DISTINCT t5.url,t5.model,t5.method"+
 					 " FROM tm_admin_role t1"+
 					 " LEFT JOIN tm_admin_role_user t2 ON t1.id = t2.role_id"+
 					 " LEFT JOIN tm_admin_user t3 ON t3.id = t2.user_id"+

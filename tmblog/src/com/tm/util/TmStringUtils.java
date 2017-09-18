@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -38,43 +39,12 @@ public class TmStringUtils {
 	}
 
 	public static Boolean stringToBoolean(String booleanString) {
-		if (TmStringUtils.isNotEmpty(booleanString)
+		if (StringUtils.isNotEmpty(booleanString)
 				&& booleanString.equals("true")) {
 			return true;
 		} else {
 			return false;
 		}
-	}
-	/**
-	 * 获取当前时间
-	 * 方法名: getTimestampTime 
-	 * 创建人: lifan 
-	 * 时间：2017年8月7日 下午2:02:41
-	 * @param @return
-	 * @return Timestamp
-	 * @exception
-	 * @since 1.0.0
-	 * @throws
-	 */
-	public static Timestamp getTimestampTime(){
-		Timestamp time = new Timestamp(System.currentTimeMillis());
-		return time;
-	}
-	
-	/**
-	 * 将时间格式转换为字符串<BR>
-	 * 方法名：getStrTime<BR>
-	 * 创建人：feifan <BR>
-	 * 时间：2017年7月1日-下午3:59:39
-	 * @param time
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
-	 */
-	public static String getStrTime(Timestamp time){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-	    String strtime=dateFormat.format(time);
-		return strtime;
 	}
 
 	public static String listToString(List<String> params, String sepator) {
@@ -121,18 +91,17 @@ public class TmStringUtils {
 	/**
 	 * 
 	 * @param string
-	 * @return �ж�һ���ַ��Ƿ�ΪNULL�������Ƿ�Ϊ"" �÷��� StringUtils.isEmpty(NULL)
-	 *         ���:true StringUtils.isEmpty("") ���:true
-	 *         StringUtils.isEmpty(" ") ���:false StringUtils.isEmpty("aa")
-	 *         ���:false
-	 *         ��Ȼ����isEmpty���෴����ΪStringUtils.isNotEmpty();�൱��!isEmpty()
+	 * @return 判断一个字符串是否为NULL或者是是否为"" 用法： StringUtils.isEmpty(NULL) 结果:true
+	 *         StringUtils.isEmpty("") 结果:true StringUtils.isEmpty(" ") 结果:false
+	 *         StringUtils.isEmpty("aa") 结果:false
+	 *         当然，与isEmpty的相反函数为StringUtils.isNotEmpty();相当于!isEmpty()
 	 */
 	public static boolean isNull(String string) {
 		return StringUtils.isEmpty(string);
 	}
 
 	/***
-	 * ���0/1����true/false
+	 * 根据0/1返回true/false
 	 * 
 	 * @param filter
 	 * @return
@@ -142,7 +111,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �ж��ַ��Ƿ����������
+	 * 判断字符串是否都是数字组成
 	 * 
 	 * @param numString
 	 * @return
@@ -152,7 +121,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ������֤ ������isEmail �����ˣ�xuchengfei ʱ�䣺2014��6��6��-����3:14:46
+	 * 邮箱验证 方法名：isEmail 创建人：xuchengfei 时间：2014年6月6日-下午3:14:46
 	 * 
 	 * @param str
 	 * @return boolean
@@ -173,7 +142,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ��֤�ֻ����
+	 * 验证手机号码
 	 * 
 	 * @param mobiles
 	 * @return
@@ -181,8 +150,7 @@ public class TmStringUtils {
 	public static boolean isMobile(String mobiles) {
 		boolean flag = false;
 		try {
-			Pattern p = Pattern
-					.compile("^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
+			Pattern p = Pattern.compile("^((13[0-9])|(17[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$");
 			Matcher m = p.matcher(mobiles);
 			flag = m.matches();
 		} catch (Exception e) {
@@ -192,7 +160,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �����ַ��֤ ������isHomepage �����ˣ�xuchengfei ʱ�䣺2014��6��6��-����3:15:10
+	 * 网络地址验证 方法名：isHomepage 创建人：xuchengfei 时间：2014年6月6日-下午3:15:10
 	 * 
 	 * @param str
 	 * @return boolean
@@ -205,13 +173,13 @@ public class TmStringUtils {
 	}
 
 	private static boolean match(String regex, String str) {
-		Pattern pattern = Pattern.compile(regex);// �����������ʽ���뵽���и��־��ģʽ��
-		Matcher matcher = pattern.matcher(str);// ģʽ����ƥ���ַ�??
+		Pattern pattern = Pattern.compile(regex);// 将给定的正则表达式编译到具有给定标志的模式中
+		Matcher matcher = pattern.matcher(str);// 模式进行匹配字符�?
 		return matcher.matches();
 	}
 
 	/**
-	 * �ж��ַ��Ƿ���Ӣ����ĸ���
+	 * 判断字符串是否都是英文字母组成
 	 * 
 	 * @param numString
 	 * @return
@@ -221,7 +189,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �ж��ַ��Ƿ���Ӣ����ĸ���������
+	 * 判断字符串是否都是英文字母和数字组成
 	 * 
 	 * @param numString
 	 * @return
@@ -231,9 +199,8 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ȥ���ַ����ߵĿո�������������""������NULL�򷵻�"" �÷���
-	 * StringUtils.trim(" abc ") ���"abc" StringUtils.trimToNull("") ���""
-	 * StringButils.trimToNull(NULL) ���""
+	 * 去掉字符串两边的空格，且如果输入的是""或者是NULL则返回"" 用法： StringUtils.trim(" abc ") 结果："abc"
+	 * StringUtils.trimToNull("") 结果："" StringButils.trimToNull(NULL) 结果：""
 	 */
 	public static String trimToEmptry(String str) {
 		return StringUtils.trimToEmpty(str);
@@ -242,22 +209,22 @@ public class TmStringUtils {
 	/**
 	 * 
 	 * @param str
-	 * @return ȥ���ַ����ߵĿո�����������""������NULL�򷵻�NULL �÷� ��
-	 *         StringUtils.trim(" abc ") ���"abc" StringUtils.trimToNull("")
-	 *         ���NULL StringButils.trimToNull(NULL) ���NULL
+	 * @return 去掉字符串两边的空格，如果输入的是""或者是NULL则返回NULL 用法 ： StringUtils.trim(" abc ")
+	 *         结果："abc" StringUtils.trimToNull("") 结果：NULL
+	 *         StringButils.trimToNull(NULL) 结果：NULL
 	 */
 	public static String trimToNull(String str) {
 		return StringUtils.trimToNull(str);
 	}
 
 	/**
-	 * ͳ�Ƶ����ַ����ַ��г��ֵĴ��� xiaoer
+	 * 统计单个字符在字符串中出现的次数 xiaoer
 	 * 
 	 * @param string
-	 *            �ַ�
+	 *            字符串
 	 * @param c
-	 *            �����ַ�
-	 * @return ���ش���
+	 *            单个字符串
+	 * @return 返回次数
 	 */
 	public static int counter(String string, char c) {
 		int count = 0;
@@ -270,11 +237,11 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * xiaoer ͳ���ַ��е����ĸ���
+	 * xiaoer 统计字符串中的中文个数，
 	 * 
 	 * @param s
-	 *            �ַ�
-	 * @return �������ĳ��ֵĴ���
+	 *            字符串
+	 * @return 返回中文出现的次数
 	 * @throws UnsupportedEncodingException
 	 */
 	public static int getChineseCount(String s)
@@ -298,7 +265,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * xiaoer ͳ���ַ��еĿհ�����ĸ������
+	 * xiaoer 统计字符串中的空白数，字母，数字
 	 * 
 	 * @param s
 	 * @return
@@ -316,8 +283,8 @@ public class TmStringUtils {
 				number++;
 			}
 		}
-		return "�ַ���:" + character + "����ĸ," + blank + "���ո�," + number
-				+ "������,�����ַ�ռ��:" + other;
+		return "字符串共有:" + character + "个字母," + blank + "个空格," + number
+				+ "个数字,其他字符占有:" + other;
 	}
 
 	public static boolean isChineseChar(char c)
@@ -326,7 +293,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * xiaoer ���ļ��ж�ȡ�ļ����ݣ�
+	 * xiaoer 从文件中读取文件内容，
 	 * 
 	 * @param res
 	 * @param filePath
@@ -369,11 +336,11 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * xiaoer ��ȡ���ֵ��ַ� strings : �ַ� copynum:��ȡ�ĳ���
+	 * xiaoer 截取带汉字的字符串 strings : 字符串 copynum:截取的长度
 	 */
 	public static String subStringContainChinese(String strings, int copyNum) {
 		String[] arr = strings.split("");
-		strings = "";// ��գ����ڴ���ѽ�ȡ���ַ�
+		strings = "";// 清空，用于存放已截取的字符串
 		int cutNum = 0;
 		int cc = 0;
 		for (int i = 0; i < arr.length; i++) {
@@ -397,13 +364,13 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �����ת��
+	 * 编码的转换
 	 * 
 	 * @param string
-	 *            ת�����ַ�
+	 *            转换的字符串
 	 * @param encoding
-	 *            ת����ı���
-	 * @return ����ת������ַ�
+	 *            转换后的编码
+	 * @return 返回转换后的字符串
 	 * @throws UnsupportedEncodingException
 	 */
 	public static String transferEncoding(String string, String encoding)
@@ -425,12 +392,12 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �����ת����0����
+	 * 整数的转换与0补齐
 	 * 
 	 * @param str
-	 *            ת��������
+	 *            转换的数字
 	 * @param length
-	 *            ת���ĳ��ȡ�����0����.
+	 *            转换的长度。不够0补齐.
 	 * @return
 	 */
 	public static String formatNO(int str, int length) {
@@ -443,7 +410,7 @@ public class TmStringUtils {
 				formater.setMinimumIntegerDigits(length);
 				laststr = formater.format(str).toString().replace(",", "");
 			} catch (Exception e) {
-				System.out.println("��ʽ���ַ�ʱ�Ĵ�����Ϣ��" + e.getMessage());
+				System.out.println("格式化字符串时的错误信息：" + e.getMessage());
 			}
 		} else {
 			Integer[] arr = new Integer[1];
@@ -452,9 +419,10 @@ public class TmStringUtils {
 		}
 		return laststr;
 	}
+	
 
 	/**
-	 * �ж��ַ��Ƿ�Ϊ��
+	 * 判断字符串是否为空
 	 * 
 	 * @param str
 	 * @return
@@ -465,7 +433,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �ж��ַ����Ƿ��пհ��ַ�
+	 * 判断字符串中是否含有空白字符。
 	 * 
 	 * @param str
 	 * @return
@@ -484,7 +452,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ȥ���ַ����ҿո�.
+	 * 去掉字符串左右空格.
 	 * 
 	 * @param str
 	 * @return
@@ -494,14 +462,14 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * xiaoer �滻�ַ�
+	 * xiaoer 替换字符串
 	 * 
 	 * @param line
-	 *            �ַ�
+	 *            字符串
 	 * @param oldString
-	 *            �滻�ַ��е�ĳ�ַ�
+	 *            替换字符串中的某字符
 	 * @param newString
-	 *            �滻������ַ�
+	 *            替换后的新字符
 	 * @return
 	 */
 	public static final String replace(String line, String oldString,
@@ -530,10 +498,10 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ������� ������
+	 * 密码加密 不可逆
 	 * 
 	 * @param originString
-	 *            Ҫ���ܵ��ַ�
+	 *            要加密的字符串
 	 * @return
 	 */
 	public static String encodeByMD5(String originString) {
@@ -551,13 +519,13 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �滻�ַ�ȫǰ׺����ַ�
+	 * 替换字符串全前缀面的字符
 	 * 
 	 * @param string
 	 *            startIntercept("12abc123","123") ==> abc123
 	 *            startIntercept("21abc323","123") ==> abc123
 	 * @param charRemove
-	 * @return ����ַ�Ϊ�գ�ֱ�ӷ���
+	 * @return 如果字符串为空，直接返回
 	 */
 	public static String startIntercept(String string, String charRemove) {
 		int len = string.length();
@@ -582,7 +550,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �滻�ַ��׺���ַ�
+	 * 替换字符串后缀的字符
 	 * 
 	 * @param str
 	 *            endIntercept("12abc123","123") ==> 12abc
@@ -612,12 +580,12 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * �滻����ַ�
+	 * 替换多个字符串
 	 * 
 	 * @param strs
-	 *            �滻ǰ���ַ�����
+	 *            替换前的字符串数组
 	 * @param interceptChars
-	 *            Ҫ�滻���ַ�
+	 *            要替换的字符串
 	 * @return
 	 */
 	public static String[] interceptAll(String[] strs, String interceptChars) {
@@ -633,12 +601,12 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ��ȡǰ�����ַ�
+	 * 截取前后包含的字符串
 	 * 
 	 * @param str
-	 *            ԭʼ�ַ�
+	 *            原始字符串
 	 * @param stripChars
-	 *            Ҫȥ����ǰ���ַ���˳���޹ء� �磺intercept("ac123ab","abc") ==>123
+	 *            要去掉的前后字符串。与顺序无关。 如：intercept("ac123ab","abc") ==>123
 	 *            intercept("acb123acb","abc") ==>123
 	 *            intercept("ac123abx","abc") ==>123abx
 	 * @return
@@ -679,13 +647,6 @@ public class TmStringUtils {
 		}
 		return str.indexOf(searchStr);
 	}
-	
-	public static int indexOf(StringBuffer str, String searchStr) {
-		if (str == null || searchStr == null) {
-			return -1;
-		}
-		return str.indexOf(searchStr);
-	}
 
 	public static int indexOf(String str, char searchChar, int startPos) {
 		if (isEmpty(str)) {
@@ -708,6 +669,36 @@ public class TmStringUtils {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * 将时间格式转换为字符串<BR>
+	 * 方法名：getStrTime<BR>
+	 * 创建人：feifan <BR>
+	 * 时间：2017年7月1日-下午3:59:39
+	 * @param time
+	 * @return String
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public static String getStrTime(Timestamp time){
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	    String strtime=dateFormat.format(time);
+		return strtime;
+	}
+	
+	/**
+	 * 获取当前时间<BR>
+	 * 方法名：getTimestampTime<BR>
+	 * 创建人：feifan <BR>
+	 * 时间：2017年7月1日-下午4:00:38
+	 * @return Timestamp
+	 * @exception 
+	 * @since  1.0.0
+	 */
+	public static Timestamp getTimestampTime(){
+		Timestamp time = new Timestamp(System.currentTimeMillis());
+		return time;
 	}
 
 	public static int indexOfDifference(String[] strs) {
@@ -769,7 +760,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ����һ�������������ַ��У�ǰ׺��ͬ��ǰ׺��
+	 * 返回一个数组中所有字符串中，前缀相同的前缀名
 	 * 
 	 * @param strs
 	 *            System.out.println(getCommonPrefix(new String[]{"a","abc"}))
@@ -830,8 +821,8 @@ public class TmStringUtils {
 	 * @param open
 	 * @param close
 	 * @return 
-	 *         �÷���StringUtils.substringBetween("<html><title>index</title></html>"
-	 *         ,"<title>","</title>") ���index
+	 *         用法：StringUtils.substringBetween("<html><title>index</title></html>"
+	 *         ,"<title>","</title>") 结果：index
 	 */
 	public static String[] substringBetween(String str, String open,
 			String close) {
@@ -843,16 +834,16 @@ public class TmStringUtils {
 	 * @param str
 	 * @param validChars
 	 * @return ontainsOnly(String str1,String str2)
-	 *         ��˼�������str1���ַ�ȫ������str2�У��򷵻�true������false������
-	 *         StringUtils.containOnly("abbb","ab") ���true
-	 *         StringUtils.containOnly("abc","ab") ���false
+	 *         意思就是如果str1的字符全部包含在str2中，则返回true，否则false，如下
+	 *         StringUtils.containOnly("abbb","ab") 结果：true
+	 *         StringUtils.containOnly("abc","ab") 结果：false
 	 */
 	public static boolean containOnly(String str, String validChars) {
 		return StringUtils.containsOnly(str, validChars);
 	}
 
 	/**
-	 * �ж�һ���ַ��Ƿ����������
+	 * 判断一个字符串是否存在数组中
 	 * 
 	 * @param s
 	 * @return
@@ -881,7 +872,7 @@ public class TmStringUtils {
 	}
 
 	/***
-	 * �ַ�����ת�����ַ�
+	 * 字符串数组转换成字符串
 	 * 
 	 * @param strings
 	 * @return
@@ -898,9 +889,11 @@ public class TmStringUtils {
 			return "";
 		}
 	}
+	
+	
 
 	/***
-	 * �ַ�����ת�����ַ�
+	 * 字符串数组转换成字符串
 	 * 
 	 * @param strings
 	 * @return
@@ -947,7 +940,7 @@ public class TmStringUtils {
 
 	public static final Pattern PDigit = Pattern.compile("^\\d*$", 34);
 
-	private static Pattern chinesePattern = Pattern.compile("[^һ-�]+", 34);
+	private static Pattern chinesePattern = Pattern.compile("[^一-龥]+", 34);
 
 	private static Pattern idPattern = Pattern.compile("[\\w\\_\\.\\,]*", 34);
 
@@ -1255,7 +1248,7 @@ public class TmStringUtils {
 				}
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
-				throw new RuntimeException("ִ�з���getBytes(\"Unicode\")ʱ���?");
+				throw new RuntimeException("执行方法getBytes(\"Unicode\")时出错！");
 			}
 		}
 		return src;
@@ -1282,7 +1275,7 @@ public class TmStringUtils {
 			}
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-			throw new RuntimeException("ִ�з���getBytes(\"Unicode\")ʱ���?");
+			throw new RuntimeException("执行方法getBytes(\"Unicode\")时出错！");
 		}
 		return length;
 	}
@@ -1339,13 +1332,13 @@ public class TmStringUtils {
 		}
 	}
 
-	// ת��ǵĺ���(DBC case)
+	// 转半角的函数(DBC case)
 	//
-	// �����ַ�
-	// ����ַ�
+	// 任意字符串
+	// 半角字符串
 	//
-	// ȫ�ǿո�Ϊ12288����ǿո�Ϊ32
-	// �����ַ���(33-126)��ȫ��(65281-65374)�Ķ�Ӧ��ϵ�ǣ������65248
+	// 全角空格为12288，半角空格为32
+	// 其他字符半角(33-126)与全角(65281-65374)的对应关系是：均相差65248
 	//
 	public static String toDBC(String input) {
 		char[] c = input.toCharArray();
@@ -1532,17 +1525,19 @@ public class TmStringUtils {
 		return ext;
 	}
 
-	/** ����ĸת��Ϊ��д **/
+	/** 首字母转换为大写 **/
 	public static String toUpperCaseFirst(String text) {
 		return text.substring(0, 1).toUpperCase() + text.substring(1);
 	}
 
-	/** ����ĸת��ΪСд **/
+	/** 首字母转换为小写 **/
 	public static String toLowerCaseFirst(String text) {
 		return text.substring(0, 1).toLowerCase() + text.substring(1);
 	}
+	
+	
 
-	/** �ַ��滻 **/
+	/** 字符串替换 **/
 	public static String replaceAll(String content, String targetWord,
 			String replaceWord) {
 		int lastIndex;
@@ -1564,12 +1559,12 @@ public class TmStringUtils {
 		return text.toString();
 	}
 
-	/** �滻���пո� **/
+	/** 替换所有空格 **/
 	public static String replaceAllSpace(String content) {
 		return replaceAll(content, " ", "");
 	}
 
-	/** ����HTML escape �滻�ַ� */
+	/** 定义HTML escape 替换字符 */
 	private final static byte[] val = { 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F,
 			0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F,
 			0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F,
@@ -1596,11 +1591,11 @@ public class TmStringUtils {
 			0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3F };
 
 	/**
-	 * �漴����漴������������tocken�ַ��.
+	 * 随即生产随即数，可以用来生产tocken字符串等.
 	 * 
 	 * @param length
-	 *            ��ɳ���
-	 * @return �漴���ַ�.
+	 *            生成长度
+	 * @return 随即数字符串.
 	 */
 	public static String getRandomString(int length) {
 		StringBuffer bu = new StringBuffer();
@@ -1633,15 +1628,15 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ��ȡĳ�������������.
+	 * 获取某个区间的随机整数.
 	 * 
 	 * @param sek
-	 *            �������
+	 *            随机种子
 	 * @param min
-	 *            ��С����
+	 *            最小整数
 	 * @param max
-	 *            �������
-	 * @return �������
+	 *            最大整数
+	 * @return 随机整数
 	 */
 	public static int getRandomInt(int sek, int min, int max) {
 		Random random = new Random();
@@ -1653,9 +1648,9 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * ʵ����js �汾��unescape����.
+	 * 实现了js 版本的unescape方法.
 	 * <p>
-	 * ����ǰ̨JS�Դ���Ĳ�������escape��JAVA��̨ȡ���������Ҫunescape��
+	 * 用于前台JS对传入的参数做了escape，JAVA后台取到参数后需要unescape。
 	 * 
 	 * @param s
 	 * @return
@@ -1703,14 +1698,14 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * @����:null ���� 'null' ת���� ""
+	 * @作用:null 或者 'null' 转换成 ""
 	 */
 	public static final String nullToEmpty(Object str) {
 		return (((null == str) || ("null".equals(str))) ? "" : str.toString());
 	}
 
 	/**
-	 * @����:�ж��Ƿ�Ϊ����
+	 * @作用:判断是否为数字
 	 */
 	public static boolean isNumeric(String str) {
 		Matcher isNum = Pattern.compile("(-|\\+)?[0-9]+(.[0-9]+\\+)?").matcher(
@@ -1766,7 +1761,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * @����: �ַ����ת��
+	 * @作用: 字符编码转换
 	 */
 	public static String fromEncodingToAnotherEncoding(String content,
 			ENCODING fromEncoding, ENCODING toEncoding) {
@@ -1785,7 +1780,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * @����:ת����html����
+	 * @作用:转换成html编码
 	 */
 	public static String htmlEncode(String txt) {
 		if (null != txt) {
@@ -1799,7 +1794,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * @����:ȥ��html����
+	 * @作用:去除html编码
 	 */
 	public static String unHtmlEncode(String txt) {
 		if (null != txt) {
@@ -1811,7 +1806,7 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * @����:ת���ַ�����ĸ,Ĭ����ת����Сд��ĸ,��boolean... bs ���ó�true ת��д
+	 * @作用:转换字符串首字母,默认是转换成小写字母,如boolean... bs 设置成true 转大写
 	 */
 	public static String firstChar2xCase(String str, boolean... bs) {
 		if ((null == str) || ("".equalsIgnoreCase(str))) {
@@ -1821,45 +1816,21 @@ public class TmStringUtils {
 				.substring(0, 1).toUpperCase()).concat(str.substring(1));
 	}
 
-	/**
-	 * 获取当前操作项目地址<BR>
-	 * 方法名：getUserDir<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:43:13
-	 * @param path
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
-	 */
 	public static String getUserDir() {
 		String dir = System.getProperty("user.dir");
 		return conversionSpecialCharacters(dir);
 	}
 
-	/**
-	 * 获取当前操作项目地址并拼接传入的地址<BR>
-	 * 方法名：getUserDir<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:43:13
-	 * @param path
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
-	 */
 	public static String getUserDir(String path) {
 		String dir = System.getProperty("user.dir");
 		return conversionSpecialCharacters(dir) + path;
 	}
 
 	/**
-	 * 字符串排序<BR>
-	 * 方法名：Sort<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:42:57
+	 * 字符串排序
+	 * 
 	 * @param str
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
+	 * @return
 	 */
 	public static String Sort(String str) {
 		char[] chr = str.toCharArray();
@@ -1868,14 +1839,11 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * 字节转换为16进制string<BR>
-	 * 方法名：bytesToHexString<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:42:38
+	 * byte[]数组转换为16进制的字符串。
+	 * 
 	 * @param data
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
+	 *            要转换的字节数组。
+	 * @return 转换后的结果。
 	 */
 	public static final String bytesToHexString(byte[] data) {
 		StringBuilder valueHex = new StringBuilder();
@@ -1890,14 +1858,11 @@ public class TmStringUtils {
 	}
 
 	/**
-	 * 十六进制转换为字节<BR>
-	 * 方法名：hexStringToBytes<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:42:24
+	 * 16进制表示的字符串转换为字节数组。
+	 * 
 	 * @param hexString
-	 * @return byte[]
-	 * @exception 
-	 * @since  1.0.0
+	 *            16进制表示的字符串
+	 * @return byte[] 字节数组
 	 */
 	public static byte[] hexStringToBytes(String hexString) {
 		if (hexString == null || hexString.equals("")) {
@@ -1909,49 +1874,48 @@ public class TmStringUtils {
 		byte[] d = new byte[length >>> 1];
 		for (int n = 0; n < length; n += 2) {
 			String item = new String(hexChars, n, 2);
+			// 两位一组，表示一个字节,把这样表示的16进制字符串，还原成一个进制字节
 			d[n >>> 1] = (byte) Integer.parseInt(item, 16);
 		}
 		return d;
 	}
-
+	
 	/**
-	 * 百分比计算<BR>
+	 * 百分比转换
 	 * 方法名：getPercent<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:41:44
+	 * 创建人：xuchengfei <BR>
+	 * 时间：2014年8月12日-下午9:50:46 <BR>
 	 * @param num
 	 * @param totalCount
-	 * @param objects
-	 * @return String
-	 * @exception 
+	 * @param format
+	 * @return String<BR>
+	 * @exception <BR>
 	 * @since  1.0.0
 	 */
-	public static String getPercent(int num, double totalCount,
-			String... objects) {
+	public static String getPercent(int num,double totalCount,String...objects){
 		String format = "#.##";
-		if (objects != null && objects.length > 0) {
+		if(objects!=null && objects.length>0){
 			format = objects[0];
 		}
-		return TmStringUtils.formatDoubleToString((num / totalCount) * 100,
-				format) + "%";
+		return TmStringUtils.formatDoubleToString((num/totalCount)*100,format)+"%";
 	}
-
+	
 	/**
-	 * 浮点型转换为字符串<BR>
+	 * 
+	 * 将小数格式化成字符串，会进行四舍五入 如：3656.4554===结果:3656.46<BR>
 	 * 方法名：formatDoubleToString<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:41:28
+	 * 创建人：xuchengfei <BR>
+	 * 时间：2014年8月12日-下午9:12:01 <BR>
+	 * 
 	 * @param dou
-	 * @param format
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
+	 * @return String<BR>
+	 * @exception <BR>
+	 * @since 1.0.0
 	 */
-	public static String formatDoubleToString(double dou, String format) {
-		if (isEmpty(format))
-			format = "#.##";
+	public static String formatDoubleToString(double dou,String format) {
+		if(isEmpty(format))format = "#.##";
 		DecimalFormat decimalFormat = new DecimalFormat(format);
-		String string = decimalFormat.format(dou);// �������룬�����һ
+		String string = decimalFormat.format(dou);// 四舍五入，逢五进一
 		return string;
 	}
 
@@ -1975,139 +1939,144 @@ public class TmStringUtils {
 		return ext.toLowerCase().matches("mp4|flv|mp3");
 	}
 
-	/**
-	 * 凯德加密<BR>
-	 * 方法名：encryption<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:41:12
-	 * @param str
-	 * @param k
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
-	 */
-	public static String encryption(String str, int k) {
+	
+	
+	public static String encryption(String str,int k){
 		String string = "";
 		for (int i = 0; i < str.length(); i++) {
-			char c = str.charAt(i);
-			if (c >= 'a' && c <= 'z') {
-				c += k % 26;
-				if (c < 'a') {
-					c += 26;
+			char c= str.charAt(i);
+			if(c>='a' && c<='z'){
+				c += k%26;
+				if(c<'a'){
+					c+=26;
 				}
-				if (c > 'z') {
-					c -= 26;
+				if(c>'z'){
+					c-=26;
 				}
-			} else if (c >= 'A' && c <= 'Z') {
-				c += k % 26;
-				if (c < 'A') {
-					c += 26;
+			}else if(c>='A' && c<='Z'){
+				c+=k%26;
+				if(c<'A'){
+					c+=26;
 				}
-				if (c > 'Z') {
-					c -= 26;
+				if(c>'Z'){
+					c-=26;
 				}
 			}
-			string += c;
+			string+=c;
 		}
 		return string;
-	}
-
-	/**
-	 * 凯德解密<BR>
-	 * 方法名：dencryption<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:41:04
-	 * @param str
-	 * @param n
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
-	 */
-	public static String dencryption(String str, int n) {
-		String string = "";
-		int k = Integer.parseInt("-" + n);
-		for (int i = 0; i < str.length(); i++) {
-			char c = str.charAt(i);
-			if (c >= 'a' && c <= 'z') {
-				c += k % 26;
-				if (c < 'a') {
-					c += 26;
-				}
-				if (c > 'z') {
-					c -= 26;
-				}
-			} else if (c >= 'A' && c <= 'Z') {
-				c += k % 26;
-				if (c < 'A') {
-					c += 26;
-				}
-				if (c > 'Z') {
-					c -= 26;
-				}
-			}
-			string += c;
-		}
-		return string;
-	}
-
-	/**
-	 * 统计字符串长度<BR>
-	 * 方法名：countString<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午9:40:47
-	 * @param a
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
-	 */
-	public static String countString(String a) {
-		if (a == null)
-			return null;
-		char[] c = a.toCharArray();
-		TreeMap<String, Integer> m = new TreeMap<String, Integer>();
-		StringBuffer buffer = new StringBuffer();
-		for (int i = 0; i < c.length; i++) {
-			String cstr = String.valueOf(c[i]);
-			if (null != m.get(cstr)) {
-				int count = m.get(cstr);
-				m.put(cstr, count + 1);
-			} else {
-				m.put(cstr, 1);
-			}
-		}
-		for (Map.Entry<String, Integer> entry : m.entrySet()) {
-			buffer.append(entry.getKey() + entry.getValue());
-		}
-		return buffer.toString();
-	}
-
-	/**
-	 * 格式化日期类 com.tz.util 方法名：formatDate 创建人：xuchengfei 手机号码:15074816437
-	 * 时间：2015年9月10日-下午11:01:08
-	 * 
-	 * @param date
-	 * @param pattern
-	 * @return 返回类型：String
-	 * @exception
-	 * @since 1.0.0
-	 */
-	public static String formatDate(Date date, String pattern) {
-		if (date != null) {
-			String dateString = new SimpleDateFormat(pattern).format(date);
-			return dateString;
-		} else {
-			return "";
-		}
 	}
 	
-	public static void main(String[] args) {
-		// String e = encryption("acxsdfSDFSD584SDF.mp4", 4);
-		// System.out.println("���ܺ�:"+e);
-		// String c = dencryption(e, 4);
-		// System.out.println("���ܺ�:"+c);
-		 System.out.println(md5Base64("123456"));;
-		//
-		// System.out.println(md5Base64("123456"));
-		//System.out.println(getRandomString(50));
+	
+	public static String dencryption(String str,int n){
+		String string = "";
+		int k = Integer.parseInt("-"+n);
+		for (int i = 0; i < str.length(); i++) {
+			char c= str.charAt(i);
+			if(c>='a' && c<='z'){
+				c += k%26;
+				if(c<'a'){
+					c+=26;
+				}
+				if(c>'z'){
+					c-=26;
+				}
+			}else if(c>='A' && c<='Z'){
+				c+=k%26;
+				if(c<'A'){
+					c+=26;
+				}
+				if(c>'Z'){
+					c-=26;
+				}
+			}
+			string+=c;
+		}
+		return string;
+	}
+	
+	/**
+	 * 讲aaabbccdd--a3b2c2d2
+	 * 方法名：countString<BR>
+	 * 创建人：xuchengfei <BR>
+	 * 时间：2014年7月30日-下午11:34:37 <BR>
+	 * @param a
+	 * @return String<BR>
+	 * @exception <BR>
+	 * @since  1.0.0
+	 */
+	public static String countString(String a){
+		 if(a==null)return null;
+		 char []c=a.toCharArray();  
+	       TreeMap<String,Integer> m=new TreeMap<String, Integer>();
+	       StringBuffer buffer = new StringBuffer();
+	       for(int i=0;i<c.length;i++){  
+	            String cstr=String.valueOf(c[i]);  
+	            if(null!=m.get(cstr)){  
+	                int count=m.get(cstr);  
+	                m.put(cstr, count+1);  
+	            }else{  
+	                m.put(cstr,1);  
+	            }  
+	       }
+	       for (Map.Entry<String, Integer> entry : m.entrySet()) {
+	    	   buffer.append(entry.getKey()+entry.getValue());
+	       }
+	       return buffer.toString();
+	 }
+	
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		
+		
+		//密码加盐处理
+		System.out.println(md5Base64("123456"));
+		
+//		Document document = Jsoup.parse(new File("d://soap.xml"), "gbk");
+//		Element element = document.getElementsByTag("resultCode").first();
+//		System.out.println(element.attr("xmlns"));
+//		System.out.println("resultCode===="+element.text());
+//		Element element2 = document.getElementsByTag("mediaTaskId").first();
+//		System.out.println(element2.attr("xmlns"));
+//		System.out.println("mediaTaskId==="+element2.text());
+		
+		//\n是一种程序 \r敲了一个回车
+		/*String str = "hello\n\rworld";
+		String str2 = "hello\r\nworld";
+		System.out.println(str);
+		System.out.println(str2);*/
+		
+		
+		
+		
+		
+//		String e = encryption("acxsdfSDFSD584SDF.mp4", 4);
+//		System.out.println("加密后:"+e);
+//		String c = dencryption(e, 4);
+//		System.out.println("解密后:"+c);
+//		System.out.println(md5Base64("xiaoer1986"));;
+//		
+//		System.out.println(md5Base64("123456"));
+		
+//		String str = "吉";
+//		str.endsWith(suffix)
+//		str.startsWith(prefix)
+//		str.matches(regex)
+//		str.contains(s)
+//		str.substring(beginIndex)
+//		str.indexOf(ch)
+//		str.lastIndexOf(ch)
+//		str.charAt(index)
+//		str.concat(str)
+//		str.equals(anObject)
+//		str.equalsIgnoreCase(anotherString)
+//		str.length()
+//		str.trim()
+//		str.toUpperCase()
+//		str.toLowerCase()
+//		str.replace(oldChar, newChar)
+//		str.replaceAll(regex, replacement)
 	}
 }

@@ -14,6 +14,8 @@ public class TmConstants {
 	public static final String SESSION_USER = "session_user";
 	//用户角色
 	public static final String SESSION_USER_ROLE = "session_user_role";
+	//用户权限
+	public static final String SESSION_PERMISSION_ROLE = "session_permission_role";
 	
 	//成功success字符串
 	public static final String SUCCESS = "success";

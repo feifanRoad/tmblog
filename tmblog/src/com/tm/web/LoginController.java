@@ -1,10 +1,12 @@
 /**
- * com.tm.web.user
- * UserController.java
+ * com.tm.web
+ * LoginController.java
  * 创建人:lifan
  * 时间：2017年09月09日 21:31:59
  */
 package com.tm.web;
+
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -16,12 +18,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.tm.model.User;
 import com.tm.model.TmParams;
+import com.tm.service.permission.IPermissionService;
 import com.tm.service.user.IAdminUserService;
 import com.tm.util.TmConstants;
 import com.tm.util.TmStringUtils;
 
 /**
- * 用户层<BR>
+ * 用户控制层<BR>
  * UserController<BR>
  * 创建人:lifan<BR>
  * 时间：2017年9月10日-下午4:32:58
@@ -29,25 +32,13 @@ import com.tm.util.TmStringUtils;
  *
  */
 @Controller
-@RequestMapping
 public class LoginController extends TmConstants{
 	
 	@Autowired
 	private IAdminUserService userService;
 	
-	/**
-	 * 跳转到登陆页面<BR>
-	 * 方法名：login<BR>
-	 * 创建人：lifan <BR>
-	 * 时间：2017年9月10日-下午4:34:37
-	 * @return String
-	 * @exception 
-	 * @since  1.0.0
-	 */
-	@RequestMapping("/login")
-	public String login(){
-		return "login";
-	}
+	@Autowired
+	private IPermissionService permissionService;
 	
 	/**
 	 * 登陆方法<BR>
@@ -60,7 +51,7 @@ public class LoginController extends TmConstants{
 	 * @exception 
 	 * @since  1.0.0
 	 */
-	@ResponseBody
+//	@ResponseBody
 	@RequestMapping(value="/logined",method=RequestMethod.POST)
 	public String logined(TmParams params, HttpServletRequest request){
 		//参数不为空时
@@ -73,7 +64,8 @@ public class LoginController extends TmConstants{
 				User user = userService.getAdminUser(params);
 				
 				if (user!=null) {
-					if (user.getForbiden()==0) {
+					//为1时禁止登陆
+					if (user.getForbiden()==1) {
 						return FORBIDEN;
 					}else {
 						//拿到请求用户的ip地址
@@ -81,7 +73,12 @@ public class LoginController extends TmConstants{
 						user = getSessionUser(user);//用户信息存储
 						//将用户信息存入session中
 						request.getSession().setAttribute(SESSION_USER, user);
-						return SUCCESS;
+						//获取缓存信息
+						List<Object[]> perList = permissionService.findPermissionByUserId(user.getId());
+						//把权限缓存起来
+						request.getSession().setAttribute(SESSION_PERMISSION_ROLE, perList);
+//						return SUCCESS;
+						return "index";
 					}
 				}else {//不存在该用户时
 					return FAIL;
@@ -105,10 +102,11 @@ public class LoginController extends TmConstants{
 	 * @since  1.0.0
 	 */
 	@RequestMapping(value="/logout")
-	@ResponseBody
+//	@ResponseBody
 	public String logout(HttpServletRequest request){
 		request.getSession().invalidate();
-		return SUCCESS;
+//		return SUCCESS;
+		return "login";
 	}
 	
 	/**
